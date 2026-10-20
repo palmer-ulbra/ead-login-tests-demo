@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Entrar</title>
+  <link rel="stylesheet" href="/estilo.css">
+</head>
+<body>
+  <main>
+    <h1>Entrar</h1>
+    <form id="login">
+      <label>E-mail <input name="email" type="email" required autocomplete="username"></label>
+      <label>Senha <input name="senha" type="password" required autocomplete="current-password"></label>
+      <button>Entrar</button>
+      <p id="mensagem" role="alert"></p>
+    </form>
+    <nav>
+      <a href="/cadastro">Criar conta</a>
+    </nav>
+  </main>
+  <script>
+    document.getElementById('login').addEventListener('submit', async (e) => {
+      e.preventDefault()
+      const res = await fetch('/api/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(Object.fromEntries(new FormData(e.target))),
+      })
+      const corpo = await res.json()
+      if (res.ok) {
+        sessionStorage.setItem('nome', corpo.nome)
+        location.href = '/secure'
+        return
+      }
+      document.getElementById('mensagem').textContent = corpo.erro
+    })
+  </script>
+</body>
+</html>

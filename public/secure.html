@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Área logada</title>
+  <link rel="stylesheet" href="/estilo.css">
+</head>
+<body>
+  <main>
+    <h1 id="saudacao"></h1>
+    <button id="sair">Sair</button>
+  </main>
+  <script>
+    // ponytail: "proteção" só no navegador; quem abrir /secure direto só é mandado de volta.
+    // Proteção de verdade pede sessão/cookie no servidor.
+    const nome = sessionStorage.getItem('nome')
+    if (!nome) location.replace('/')
+    document.getElementById('saudacao').textContent = `Bem-vindo, ${nome}!`
+    document.getElementById('sair').addEventListener('click', () => {
+      sessionStorage.removeItem('nome')
+      location.href = '/'
+    })
+  </script>
+</body>
+</html>
